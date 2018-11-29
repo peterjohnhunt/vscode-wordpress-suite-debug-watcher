@@ -2,7 +2,7 @@
     "name": "wordpress-suite-debug-watcher",
     "displayName": "WordPress Suite | Debug Watcher",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "peterjohnhunt",
     "repository": {
         "type": "git",
@@ -53,25 +53,29 @@
                 }
             }
         },
-        "commands": [{
-            "command": "extension.open-log",
-            "title": "Open Debug Log",
-            "category": "WordPress Suite"
-        },
-        {
-            "command": "extension.clear-log",
-            "title": "Clear Debug Log",
-            "category": "WordPress Suite"
-        }],
-        "menus": {
-            "explorer/context": [{
+        "commands": [
+            {
                 "command": "extension.open-log",
-                "group": "z_commands@2"
+                "title": "Open Debug Log",
+                "category": "WordPress Suite"
             },
             {
                 "command": "extension.clear-log",
-                "group": "z_commands@3"
-            }]
+                "title": "Clear Debug Log",
+                "category": "WordPress Suite"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "extension.open-log",
+                    "group": "z_commands@2"
+                },
+                {
+                    "command": "extension.clear-log",
+                    "group": "z_commands@3"
+                }
+            ]
         }
     },
     "scripts": {
