@@ -1,14 +1,13 @@
-import { window, workspace } from 'vscode';
+import { window, workspace, Disposable } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import filewatcher from 'filewatcher';
 
 import { Config } from './class-config';
 
 export class Watcher{
-    private _watcher: filewatcher;
+    private _watcher;
+    private _disposable: Disposable;
     private _config: Config;
-    private _root = '';
     private _name = '';
     private _file = '';
     private _contents = '';
@@ -21,65 +20,71 @@ export class Watcher{
         'warning': 'PHP Warning:',
     };
 
-    constructor(root){
-        this._watcher = filewatcher();
+    constructor(site){
         this._config = new Config();
-        this._root = root;
-        this._name = path.basename(root).toUpperCase();
-        this._file = path.join(root, 'wp-content/debug.log');
+        this._name = site.getName();
+        this._file = path.join(site.getRoot(), 'wp-content/debug.log');
+
 
         fs.readFile(this._file, 'utf8', (err,data) => {
             if (err) return;
             
             this._setContents(data);
 
-            this._showInfo('Watching Debug Log');
+            let subscriptions: Disposable[] = [];
 
-            this._watcher.add(this._file);
-            this._watcher.on('change', (file, stat) => {
-                fs.readFile(file, 'utf8', (err,data) => {
+            this._watcher = workspace.createFileSystemWatcher(this._file);
+
+            window.setStatusBarMessage("WordPress Suite: Watching " + this._name, 3000);
+
+            this._watcher.onDidChange(uri => {
+                fs.readFile(uri.fsPath, 'utf8', (err, data) => {
                     if (err) return;
 
-                    if ( data ) {
+                    if (data) {
                         let config = this._config.get('messages');
                         let messages = this._getMessages(data);
                         let isStackTrace = false;
 
-                        for (let message of messages){
+                        for (let message of messages) {
                             let type = this._getType(message);
 
                             if (!message) continue;
 
-                            if ( message.indexOf('PHP Stack trace:') !== -1 ) {
+                            if (message.indexOf('PHP Stack trace:') !== -1) {
                                 isStackTrace = true;
                                 continue;
                             }
 
-                            if ( isStackTrace ) {
+                            if (isStackTrace) {
                                 if (message.search(new RegExp('^PHP\\s+\\d+\\. ')) !== -1) {
                                     continue;
                                 } else {
                                     isStackTrace = false;
                                 }
                             }
-                            
+
                             if (config[type]) {
-                                if (type == 'error' ) {
-                                    this._showError(message);                            
+                                if (type == 'error') {
+                                    this._showError(message);
                                 } else if (['notice', 'deprecated', 'warning'].indexOf(type) !== -1) {
                                     this._showWarning(message);
-                                } else if (type == 'info'){
+                                } else if (type == 'info') {
                                     this._showInfo(message, this._buttons);
                                 }
                             }
                         }
-                    } else if ( this._getContents() != '' ) {
-                        this._showInfo('Debug Log Cleared');
+                    } else if (this._getContents() != '') {
+                        window.setStatusBarMessage("WordPress Suite: " + this._name + " debug log cleared", 3000);
                     }
 
                     this._setContents(data);
                 });
             });
+
+            subscriptions.push(this._watcher);
+
+            this._disposable = Disposable.from(...subscriptions);
         });
     }
 
@@ -151,14 +156,18 @@ export class Watcher{
     public openLog(){
         workspace.openTextDocument(this._file).then(doc => {
             window.showTextDocument(doc);
-            this._showInfo('Debug Log Opened');
+            window.setStatusBarMessage("WordPress Suite: " + this._name + " debug log opened", 3000);
         });
     }
 
     public clearLog(){
         fs.writeFile(this._file, '', (err) => {
             if (err) return;
-            this._showInfo('Debug Log Cleared');
+            window.setStatusBarMessage("WordPress Suite: " + this._name + " debug log cleared", 3000);
         })
+    }
+
+    public dispose() {
+        this._disposable.dispose();
     }
 }

@@ -69,11 +69,13 @@
             "explorer/context": [
                 {
                     "command": "extension.open-log",
-                    "group": "z_commands@2"
+                    "group": "2_workspace@2",
+                    "when": "isWordPressSuite"
                 },
                 {
                     "command": "extension.clear-log",
-                    "group": "z_commands@3"
+                    "group": "2_workspace@3",
+                    "when": "isWordPressSuite"
                 }
             ]
         }
@@ -92,7 +94,5 @@
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
     },
-    "dependencies": {
-        "filewatcher": "^3.0.1"
-    }
+    "dependencies": {}
 }

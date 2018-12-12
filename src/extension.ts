@@ -3,16 +3,11 @@ import { commands, window, ExtensionContext, extensions } from 'vscode';
 import { Watcher } from './classes/class-watcher';
 
 export function activate(context: ExtensionContext) {
-    let watchers = [];
     let api = extensions.getExtension('peterjohnhunt.wordpress-suite').exports;
 
     let openDisposable = commands.registerCommand('extension.open-log', (uri) => {
-        if (!uri) {
-            window.showInformationMessage('Please Select A Site');
-            return;
-        }
-        
-        let site = api.getSite(uri.path);
+        let selected = uri ? uri.path : false;
+        let site = api.getSite(selected);
 
         if (site){
             site.watcher.openLog();
@@ -21,12 +16,8 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(openDisposable);
 
     let clearDisposable = commands.registerCommand('extension.clear-log', (uri) => {
-        if (!uri) {
-            window.showInformationMessage('Please Select A Site');
-            return;
-        }
-
-        let site = api.getSite(uri.path);
+        let selected = uri ? uri.path : false;
+        let site = api.getSite(selected);
 
         if (site) {
             site.watcher.clearLog();
@@ -34,8 +25,12 @@ export function activate(context: ExtensionContext) {
     });
     context.subscriptions.push(clearDisposable);
 
-    for (let site of api.getSites()){
-        site.watcher = new Watcher(site.getRoot());
+    const sites = api.getSites();
+    if (sites.length) {
+        for (let site of sites){
+            site.watcher = new Watcher(site);
+            context.subscriptions.push(site.watcher);
+        }
     }
 }
 
