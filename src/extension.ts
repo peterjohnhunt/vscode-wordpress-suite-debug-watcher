@@ -7,7 +7,7 @@ export function activate(context: ExtensionContext) {
 
     let openDisposable = commands.registerCommand('extension.open-log', (uri) => {
         let selected = uri ? uri.path : false;
-        let site = api.getSite(selected);
+        let site = api.sites.getSite(selected);
 
         if (site){
             site.watcher.openLog();
@@ -17,7 +17,7 @@ export function activate(context: ExtensionContext) {
 
     let clearDisposable = commands.registerCommand('extension.clear-log', (uri) => {
         let selected = uri ? uri.path : false;
-        let site = api.getSite(selected);
+        let site = api.sites.getSite(selected);
 
         if (site) {
             site.watcher.clearLog();
@@ -25,7 +25,7 @@ export function activate(context: ExtensionContext) {
     });
     context.subscriptions.push(clearDisposable);
 
-    const sites = api.getSites();
+    const sites = api.sites.getSites();
     if (sites.length) {
         for (let site of sites){
             site.watcher = new Watcher(site);
