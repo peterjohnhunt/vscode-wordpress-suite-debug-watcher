@@ -1,4 +1,4 @@
-import { window, workspace, Disposable } from 'vscode';
+import { window, workspace, commands, Disposable } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -146,11 +146,14 @@ export class Watcher{
     }
 
     private _handleButtons(selection){
+        if (!selection) return;
+        
         if (selection == 'Open') {
             this.openLog();
         } else if (selection == 'Clear') {
             this.clearLog();
         }
+        commands.executeCommand('notifications.clearAll');
     }
 
     public openLog(){

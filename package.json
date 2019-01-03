@@ -69,12 +69,12 @@
             "explorer/context": [
                 {
                     "command": "extension.open-log",
-                    "group": "2_workspace@2",
+                    "group": "z_commands@2",
                     "when": "isWordPressSuite"
                 },
                 {
                     "command": "extension.clear-log",
-                    "group": "2_workspace@3",
+                    "group": "z_commands@3",
                     "when": "isWordPressSuite"
                 }
             ]
