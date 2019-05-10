@@ -1,98 +1,103 @@
 {
-    "name": "wordpress-suite-debug-watcher",
-    "displayName": "WordPress Suite | Debug Watcher",
-    "description": "",
-    "version": "0.0.3",
-    "publisher": "peterjohnhunt",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/peterjohnhunt/vscode-wordpress-suite-debug-watcher.git"
-    },
-    "engines": {
-        "vscode": "^1.29.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "workspaceContains:**/*.php"
-    ],
-    "extensionDependencies": [
-        "peterjohnhunt.wordpress-suite"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "Debug Watcher Messages",
-            "properties": {
-                "wordpress-suite.debug-watcher.messages.error": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show Error Messages"
-                },
-                "wordpress-suite.debug-watcher.messages.notice": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show Notice Messages"
-                },
-                "wordpress-suite.debug-watcher.messages.deprecated": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show Deprecated Messages"
-                },
-                "wordpress-suite.debug-watcher.messages.warning": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show Warning Messages"
-                },
-                "wordpress-suite.debug-watcher.messages.info": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show Info Messages"
-                }
-            }
-        },
-        "commands": [
-            {
-                "command": "extension.open-log",
-                "title": "Open Debug Log",
-                "category": "WordPress Suite"
-            },
-            {
-                "command": "extension.clear-log",
-                "title": "Clear Debug Log",
-                "category": "WordPress Suite"
-            }
-        ],
-        "menus": {
-            "explorer/context": [
-                {
-                    "command": "extension.open-log",
-                    "group": "z_commands@2",
-                    "when": "isWordPressSuite"
-                },
-                {
-                    "command": "extension.clear-log",
-                    "group": "z_commands@3",
-                    "when": "isWordPressSuite"
-                }
-            ]
-        }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    },
-    "dependencies": {}
+	"name": "wordpress-suite-debug-watcher",
+	"displayName": "WordPress Suite | Debug Watcher",
+	"description": "",
+	"version": "0.0.3",
+	"publisher": "peterjohnhunt",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/peterjohnhunt/vscode-wordpress-suite-debug-watcher.git"
+	},
+	"engines": {
+		"vscode": "^1.29.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"workspaceContains:**/*.php"
+	],
+	"extensionDependencies": [
+		"peterjohnhunt.wordpress-suite"
+	],
+	"main": "./out/extension",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Debug Watcher Messages",
+			"properties": {
+				"wordpress-suite.debug-watcher.messages.error": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Error Messages"
+				},
+				"wordpress-suite.debug-watcher.messages.notice": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Notice Messages"
+				},
+				"wordpress-suite.debug-watcher.messages.deprecated": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Deprecated Messages"
+				},
+				"wordpress-suite.debug-watcher.messages.warning": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Warning Messages"
+				},
+				"wordpress-suite.debug-watcher.messages.info": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Info Messages"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.open-log",
+				"title": "Open Debug Log",
+				"category": "WordPress Suite"
+			},
+			{
+				"command": "extension.clear-log",
+				"title": "Clear Debug Log",
+				"category": "WordPress Suite"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.open-log",
+					"group": "z_commands@2",
+					"when": "isWordPressSuite"
+				},
+				{
+					"command": "extension.clear-log",
+					"group": "z_commands@3",
+					"when": "isWordPressSuite"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.6",
+		"tslint": "^5.8.0",
+		"@types/node": "^7.0.43",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {},
+	"__metadata": {
+		"id": "75fc9966-a2a5-48b6-8263-29f1f4046af6",
+		"publisherDisplayName": "peterjohnhunt",
+		"publisherId": "2077a556-4feb-471d-b089-67e06b5bdf6d"
+	}
 }
