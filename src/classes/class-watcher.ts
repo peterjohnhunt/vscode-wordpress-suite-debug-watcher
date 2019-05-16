@@ -130,33 +130,23 @@ export class Watcher{
     }
 
     private _prepare(message){
-        return this._name + ': ' + message;
+        return message;
     }
 
     private _showInfo(message, buttons=[]){
-        window.showInformationMessage(this._prepare(message), ...buttons).then(selection => this._handleButtons(selection));
+        window.showInformationMessage(this._prepare(message));
     }
 
     private _showWarning(message) {
-        window.showWarningMessage(this._prepare(message), ...this._buttons).then(selection => this._handleButtons(selection));
+        window.showWarningMessage(this._prepare(message));
     }
 
     private _showError(message) {
-        window.showErrorMessage(this._prepare(message), ...this._buttons).then(selection => this._handleButtons(selection));
-    }
-
-    private _handleButtons(selection){
-        if (!selection) return;
-        
-        if (selection == 'Open') {
-            this.openLog();
-        } else if (selection == 'Clear') {
-            this.clearLog();
-        }
-        commands.executeCommand('notifications.clearAll');
+        window.showErrorMessage(this._prepare(message));
     }
 
     public openLog(){
+        commands.executeCommand('notifications.clearAll');
         workspace.openTextDocument(this._file).then(doc => {
             window.showTextDocument(doc);
             window.setStatusBarMessage("WordPress Suite: " + this._name + " debug log opened", 3000);
@@ -164,6 +154,7 @@ export class Watcher{
     }
 
     public clearLog(){
+        commands.executeCommand('notifications.clearAll');
         fs.writeFile(this._file, '', (err) => {
             if (err) return;
             window.setStatusBarMessage("WordPress Suite: " + this._name + " debug log cleared", 3000);

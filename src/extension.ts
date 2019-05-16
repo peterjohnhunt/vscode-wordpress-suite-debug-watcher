@@ -1,5 +1,5 @@
 'use strict';
-import { commands, window, ExtensionContext, extensions } from 'vscode';
+import { commands, window, ExtensionContext, StatusBarAlignment, extensions } from 'vscode';
 import { Watcher } from './classes/class-watcher';
 
 export function activate(context: ExtensionContext) {
@@ -24,6 +24,22 @@ export function activate(context: ExtensionContext) {
         }
     });
     context.subscriptions.push(clearDisposable);
+
+    let openButton = window.createStatusBarItem(StatusBarAlignment.Right);
+    openButton.show();
+    openButton.text = '$(note)';
+    openButton.color = '#0ec05c';
+    openButton.tooltip = 'Open Debug Log';
+    openButton.command = 'extension.open-log';
+    context.subscriptions.push(openButton);
+
+    let clearButton = window.createStatusBarItem(StatusBarAlignment.Right);
+    clearButton.show();
+    clearButton.text = '$(fold-down)';
+    clearButton.color = '#ef596f';
+    clearButton.tooltip = 'Clear Debug Log';
+    clearButton.command = 'extension.clear-log';
+    context.subscriptions.push(clearButton);
 
     const sites = api.sites.getSites();
     if (sites.length) {
