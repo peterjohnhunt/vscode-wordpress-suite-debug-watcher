@@ -57,7 +57,7 @@ export class Watcher{
                             }
 
                             if (isStackTrace) {
-                                if (message.search(new RegExp('^PHP\\s+\\d+\\. ')) !== -1) {
+                                if (message.search(/^PHP\s+\d+\. /i) !== -1) {
                                     continue;
                                 } else {
                                     isStackTrace = false;
