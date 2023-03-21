@@ -2,7 +2,7 @@
 	"name": "wordpress-suite-debug-watcher",
 	"displayName": "WordPress Suite | Debug Watcher",
 	"description": "",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"publisher": "peterjohnhunt",
 	"repository": {
 		"type": "git",
