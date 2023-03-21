@@ -5,9 +5,8 @@ import { Watcher } from './classes/class-watcher';
 export function activate(context: ExtensionContext) {
     let api = extensions.getExtension('peterjohnhunt.wordpress-suite').exports;
 
-    let openDisposable = commands.registerCommand('extension.open-log', (uri) => {
-        let selected = uri ? uri.path : false;
-        let site = api.sites.getSite(selected);
+    let openDisposable = commands.registerCommand('extension.open-log', () => {
+        let site = api.sites.getActive();
 
         if (site){
             site.watcher.openLog();
@@ -15,9 +14,8 @@ export function activate(context: ExtensionContext) {
     });
     context.subscriptions.push(openDisposable);
 
-    let clearDisposable = commands.registerCommand('extension.clear-log', (uri) => {
-        let selected = uri ? uri.path : false;
-        let site = api.sites.getSite(selected);
+    let clearDisposable = commands.registerCommand('extension.clear-log', () => {
+        let site = api.sites.getActive();
 
         if (site) {
             site.watcher.clearLog();
